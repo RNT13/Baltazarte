@@ -1,0 +1,158 @@
+/*Reset Do site*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/*Configuração do cabeçalho*/
+header {
+    padding: 16px 0 ; /*espaçamento interno do cabeçalho*/
+    background-color: #424461; /*Cor de fundo co cabeçalho*/
+    color: #fff;
+}
+
+header,
+section h2,
+section h3,
+form button {
+    font-family: "Archivo Black", cursive;
+    font-weight: normal;
+}
+
+body, input, textarea {
+    font-family: "Oswald", sans-serif ;
+}
+/*Configuração do menu do cabeçalho*/
+header nav li {
+    display: inline; /*Mostra o menu em uma linha*/
+    margin-left: 16px;/* Adiciona margem a esquerda*/
+    font-size: 18px;/* tamanho da fonte do nav*/
+}
+/*configuração dos  links do menu nav*/
+header nav li a {
+    color: #fff;
+    text-decoration: none; /*remove o underline*/
+}
+
+header h1 {
+    font-size: 48px;
+}
+/*Alinhamento do cabeçalho do site*/
+.container {
+    max-width: 1280px;/*largura maxima da página*/
+    width: 100%;/*ocupa 100% da largura até chegar a 1280px*/
+    margin: 0 auto; /*Adiciona margem a esquerda  e direita da página*/
+}
+/*alinhamento do container do cabeçalho*/
+header .container {
+    display: flex; /*mostra os itens ao lado*/
+    align-items: center;/*adiciona alinhamento vertical */
+    justify-content: space-between;/*adiciona alinhamento uniforme*/
+}
+
+section .container {
+    align-items: flex-start;
+}
+
+section {
+    padding: 24px 0;
+    color: #424461;
+}
+
+section p {
+    margin-bottom: 8px;
+    width: 89%;/*Largura em relação ao site*/
+}
+
+section h2 {
+    margin-bottom: 16px;
+}
+
+.full-bunner {
+    margin-bottom: 16px;
+}
+
+.products img {
+    height: 300px;
+}
+
+.products li {
+    display: inline;
+    margin-left: 16px;
+    justify-content: space-between;
+}
+
+.products {
+    display: flex;
+}
+
+.products li a {
+    text-decoration: none;
+}
+
+.social-links img {
+    height: 48px;
+}
+
+.social-links li {
+    display: inline;
+    margin-right: 8px;
+}
+
+.social-links {
+    display: flex;
+}
+
+.social-links li a {
+    text-decoration: none;
+}
+
+#contact .container {
+    display: block;
+}
+
+.contact-methods {
+    display: flex;
+    justify-content: space-between;
+    width: 89%;
+}
+
+form input,
+form textarea,
+form button {
+    display: block;
+    width: 320px;
+    margin-bottom: 8px;
+    padding: 8px;
+    color: #424461;
+}
+
+form textarea {
+    resize: none;
+    height: 180px;
+}
+
+section h3 {
+    margin-bottom: 16px;
+}
+
+form button {
+    background-color: #424461;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #6e6f94;
+}
+
+input:focus, textarea:focus {
+    outline-color: #424461;
+}
+
+footer {
+    background-color: #424461;
+    color: #fff;
+    padding: 16px 0;
+}
