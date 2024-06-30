@@ -79,7 +79,6 @@ section h2 {
 .products li {
     display: inline;
     margin-left: 16px;
-    justify-content: space-between;
 }
 
 .products {
