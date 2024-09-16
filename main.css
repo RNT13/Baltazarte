@@ -1,0 +1,127 @@
+body {
+    font-family: 'Oswald', sans-serif;
+}
+
+.sectionTitle {
+    font-family: "Archivo Black", cursive;
+    color: #ECABD5;
+}
+
+.textColored {
+    color: #15D8E7;
+}
+
+.baltazarlogo {
+    max-width: 20%;
+    max-height: 20%;
+}
+
+.carousel img {
+    max-width: auto;
+    object-fit: fill;    
+}
+
+.navbar {
+    background-color: #7799BB;
+}
+
+#cabecalho .nav .nav-link.active {
+    background-color: #171834;
+    color: #7799BB;
+    transition: all 0.3s ease;
+}
+
+#cabecalho .nav .nav-link,
+.navbar-brand,
+.navbar-brand:hover,
+.nav-cardapio .nav-link.active:hover,
+.top-menu {
+    color: #171834;
+}
+
+#cabecalho {
+    border-bottom: #171834 solid 5px;
+    margin: 0;
+    padding-top: 0;
+}
+
+#canecas,
+#contato {
+    background-color: #15D8E730;
+}
+
+#sobre-a-loja,
+#camisas {
+    background-color: #ecabd530;
+}
+
+.produtos .discount {
+    display: none;
+}
+
+.produtosPromoção .fullPrice {
+    opacity: 0.7;
+    text-decoration: line-through;
+    color: red;
+}
+
+.btn {
+    background-color: #15D8E7;
+    color: #171834;
+}
+
+.btn:hover {
+    background-color: #ECABD5;
+    color: #171834;
+}
+
+.card {
+    background-color: #171834;
+    color: #7799BB;
+}
+
+.background {
+    background-color: #7799BB00;
+    border: #171834 solid 5px;
+    border-radius: 5px;
+    padding: 3%;
+    margin: 3%;
+}
+
+section {
+    min-height: 100vh;
+    scroll-padding-top: 200px;
+}
+
+.social-link li {
+    list-style: none;
+    display: inline;
+}
+
+.social-link a {
+    text-decoration: none;
+}
+
+.error  {
+    color: red;
+}
+
+footer {
+    border-top: #171834 solid 5px;
+    background-color: #7799BB;
+}
+
+@media screen and (max-width: 767px) {
+    .baltazarlogo {
+        max-width: 50%;
+        max-height: 50%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    
+}
+
+@media screen and (min-width: 1024px) {
+    
+}
