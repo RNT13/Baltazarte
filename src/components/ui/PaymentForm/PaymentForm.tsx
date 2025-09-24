@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { apiSlice } from "@/redux/slices/apiSlice";
+import { apiSlice, useClearCartMutation } from "@/redux/slices/apiSlice";
 import { TitleH2 } from "@/styles/globalStyles";
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -25,6 +25,7 @@ const Form = forwardRef<PaymentFormHandle>((props, ref) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
+  const [clearCartMutation] = useClearCartMutation();
 
 
   const handleSubmit = async (event?: FormEvent) => {
@@ -50,8 +51,11 @@ const Form = forwardRef<PaymentFormHandle>((props, ref) => {
       toast.error(error.message || 'Ocorreu um erro no pagamento.', { id: 'processing' });
       setIsLoading(false);
     } else {
-      toast.success('Pagamento confirmado!', { id: 'processing' });
-      window.location.href = returnUrl + 'paymentConfirmation';
+      await clearCartMutation()
+      dispatch(apiSlice.util.invalidateTags(['Cart']))
+
+      toast.success('Pagamento confirmado e carrinho limpo!', { id: 'processing' })
+      window.location.href = returnUrl + 'paymentConfirmation'
     }
   };
 

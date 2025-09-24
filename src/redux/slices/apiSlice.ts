@@ -356,6 +356,11 @@ export const apiSlice = createApi({
         result ? [...result.items.map(({ id }) => ({ type: 'Cart' as const, id })), { type: 'Cart', id: 'LIST' }] : [{ type: 'Cart', id: 'LIST' }]
     }),
 
+    clearCart: builder.mutation<{ success: boolean }, void>({
+      query: () => ({ url: 'cart/clear', method: 'POST' }),
+      invalidatesTags: [{ type: 'Cart', id: 'LIST' }]
+    }),
+
     addCartItem: builder.mutation<CartItem, NewCartItemPayload>({
       query: body => ({ url: 'cart', method: 'POST', body }),
       invalidatesTags: [{ type: 'Cart', id: 'LIST' }]
@@ -442,5 +447,6 @@ export const {
   useGetCartQuery,
   useAddCartItemMutation,
   useUpdateCartItemMutation,
-  useDeleteCartItemMutation
+  useDeleteCartItemMutation,
+  useClearCartMutation
 } = apiSlice
