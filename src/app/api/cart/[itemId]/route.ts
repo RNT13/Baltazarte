@@ -1,7 +1,7 @@
 import { prisma } from '@/utils/prisma'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function PUT(req: Request, context: { params: Promise<{ itemId: string }> }) {
+export async function PUT(req: NextRequest, context: { params: Promise<{ itemId: string }> }) {
   try {
     const { itemId } = await context.params
     const body = (await req.json()) as { quantity: number }
@@ -19,11 +19,11 @@ export async function PUT(req: Request, context: { params: Promise<{ itemId: str
   }
 }
 
-export async function PATCH(req: Request, context: { params: Promise<{ itemId: string }> }) {
+export async function PATCH(req: NextRequest, context: { params: Promise<{ itemId: string }> }) {
   return PUT(req, context)
 }
 
-export async function DELETE(req: Request, context: { params: Promise<{ itemId: string }> }) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ itemId: string }> }) {
   try {
     const { itemId } = await context.params
     const idAsInt = parseInt(itemId, 10)

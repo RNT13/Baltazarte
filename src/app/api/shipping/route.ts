@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // Interface para o corpo da requisição que nossa API recebe
 interface ShippingRequest {
@@ -36,7 +36,7 @@ type MelhorEnvioResponse = MelhorEnvioOption[]
 // ROTA DA API
 // =============================================
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     // 1. Validação da chave de API
     if (!process.env.MELHOR_ENVIO_API_KEY) {

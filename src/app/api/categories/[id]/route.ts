@@ -1,8 +1,8 @@
 import { prisma } from '@/utils/prisma'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // GET /api/categories/[id] → retorna uma categoria específica
-export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
 
@@ -22,7 +22,7 @@ export async function GET(req: Request, context: { params: Promise<{ id: string 
 }
 
 // PUT /api/categories/[id] → atualiza categoria
-export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
+export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
     const body = await req.json()
@@ -44,7 +44,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
 }
 
 // DELETE /api/categories/[id] → remove categoria
-export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
 

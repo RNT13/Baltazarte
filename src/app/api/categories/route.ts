@@ -1,5 +1,5 @@
 import { prisma } from '@/utils/prisma'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // GET /api/categories → lista todas
 export async function GET() {
@@ -15,7 +15,7 @@ export async function GET() {
 }
 
 // POST /api/categories → cria nova
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
 

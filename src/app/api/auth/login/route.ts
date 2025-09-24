@@ -2,9 +2,9 @@ import { prisma } from '@/utils/prisma'
 import bcrypt from 'bcryptjs'
 import { serialize } from 'cookie'
 import { SignJWT } from 'jose'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     // Recebe email e senha do body da requisição
     const { email, password } = await req.json()

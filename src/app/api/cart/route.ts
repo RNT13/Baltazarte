@@ -1,7 +1,7 @@
 import { prisma } from '@/utils/prisma'
 import { jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // GET /api/cart
 export async function GET() {
@@ -26,7 +26,7 @@ export async function GET() {
 }
 
 // POST /api/cart
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const token = (await cookies()).get('token')?.value
     if (!token) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
