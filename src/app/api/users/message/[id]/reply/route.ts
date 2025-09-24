@@ -6,8 +6,8 @@ import MessageReplyEmail from '../../../../../../../emails/MessageReplyEmail'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
-  const { id: messageId } = params
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id: messageId } = await params
   const admin = await getUserFromRequest(request)
 
   if (!admin || admin.role !== 'ADMIN') {
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
         react: MessageReplyEmail({
           userName: answeredMessage.name,
           originalMessage: answeredMessage.message,
-          responseText: responseText
+          responseText
         })
       })
     } catch (emailError) {
