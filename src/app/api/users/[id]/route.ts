@@ -1,8 +1,8 @@
 import { prisma } from '@/utils/prisma'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // GET /api/users/[id]
-export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
 
   try {
@@ -28,7 +28,7 @@ export async function GET(req: Request, context: { params: Promise<{ id: string 
 }
 
 // DELETE /api/users/[id]
-export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
 
   try {

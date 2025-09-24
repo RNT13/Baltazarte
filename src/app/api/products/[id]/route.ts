@@ -4,9 +4,9 @@ import { Prisma } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
 // GET /api/products/:id
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = await params
+    const { id } = await context.params
     const product = await prisma.product.findUnique({
       where: { id },
       include: { category: true }
@@ -21,14 +21,14 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 }
 
 // PUT /api/products/:id
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const user = await getUserFromRequest(req)
   if (!user || user.role !== 'ADMIN') {
     return NextResponse.json({ message: 'Não autorizado' }, { status: 403 })
   }
 
   try {
-    const { id } = await params
+    const { id } = await context.params
     const body: unknown = await req.json()
 
     const existingProduct = await prisma.product.findUnique({ where: { id } })
@@ -37,7 +37,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 
     const updateData: Prisma.ProductUpdateInput = {}
-
     const requestData = body as { [key: string]: unknown }
 
     if (typeof requestData.name === 'string') updateData.name = requestData.name
@@ -75,19 +74,19 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 // PATCH /api/products/:id
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const user = await getUserFromRequest(req)
   if (!user || user.role !== 'ADMIN') {
     return NextResponse.json({ message: 'Não autorizado' }, { status: 403 })
   }
 
   try {
+    const { id } = await context.params
     const data = await req.json()
-    const { id } = await params
     const { name, category, description, originalPrice, thumbnail, gallery, discount, stock, highlight, sold, active } = data
 
     const updatedProduct = await prisma.product.update({
-      where: { id: id },
+      where: { id },
       data: { name, category, description, originalPrice, thumbnail, gallery, discount, stock, highlight, sold, active }
     })
     return NextResponse.json(updatedProduct)
@@ -97,14 +96,14 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 }
 
 // DELETE /api/products/:id
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const user = await getUserFromRequest(req)
   if (!user || user.role !== 'ADMIN') {
     return NextResponse.json({ message: 'Não autorizado' }, { status: 403 })
   }
 
   try {
-    const { id } = await params
+    const { id } = await context.params
     const deletedProduct = await prisma.product.delete({
       where: { id }
     })

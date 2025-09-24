@@ -1,9 +1,9 @@
 import { prisma } from '@/utils/prisma'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // GET todos os endereços do usuário (sem alterações)
-export async function GET(req: Request, { params }: { params: { id: string } }) {
-  const { id } = await params
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params
   if (!id) {
     return NextResponse.json({ error: 'ID do usuário é obrigatório' }, { status: 400 })
   }
@@ -12,8 +12,8 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 }
 
 // POST criar novo endereço
-export async function POST(req: Request, { params }: { params: { id: string } }) {
-  const { id: userId } = await params
+export async function POST(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id: userId } = await context.params
   if (!userId) {
     return NextResponse.json({ error: 'ID do usuário é obrigatório' }, { status: 400 })
   }

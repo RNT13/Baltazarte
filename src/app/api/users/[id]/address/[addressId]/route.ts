@@ -3,8 +3,8 @@ import { prisma } from '@/utils/prisma'
 import { NextRequest, NextResponse } from 'next/server'
 
 // GET endereço específico
-export async function GET(req: Request, { params }: { params: { id: string; addressId: string } }) {
-  const { id, addressId } = params
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string; addressId: string }> }) {
+  const { id, addressId } = await context.params
   const address = await prisma.address.findUnique({ where: { id: addressId } })
 
   // Validação de segurança: o endereço pertence mesmo a este usuário?
@@ -15,9 +15,10 @@ export async function GET(req: Request, { params }: { params: { id: string; addr
 }
 
 // PUT/PATCH atualizar endereço
-async function handleUpdate(req: Request, params: { addressId: string }) {
-  const { addressId } = params
+async function handleUpdate(req: NextRequest, context: { params: Promise<{ id: string; addressId: string }> }) {
+  const { addressId } = await context.params
   const body = await req.json()
+
   const updated = await prisma.address.update({
     where: { id: addressId },
     data: body
@@ -27,15 +28,15 @@ async function handleUpdate(req: Request, params: { addressId: string }) {
 
 export { handleUpdate as PATCH, handleUpdate as PUT }
 
-// DELETE
-export async function DELETE(req: NextRequest, { params }: { params: { id: string; addressId: string } }) {
+// DELETE endereço
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string; addressId: string }> }) {
   try {
     const requestingUser = await getUserFromRequest(req)
     if (!requestingUser) {
       return NextResponse.json({ message: 'Não autenticado.' }, { status: 401 })
     }
 
-    const { id: userId, addressId } = await params
+    const { id: userId, addressId } = await context.params
 
     const addressToDelete = await prisma.address.findUnique({
       where: { id: addressId }

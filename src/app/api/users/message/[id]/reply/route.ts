@@ -7,10 +7,10 @@ import MessageReplyEmail from '../../../../../../../emails/MessageReplyEmail'
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
-  const { id: messageId } = await params
+  const { id: messageId } = params
   const admin = await getUserFromRequest(request)
 
-  if (!admin) {
+  if (!admin || admin.role !== 'ADMIN') {
     return NextResponse.json({ message: 'Acesso negado.' }, { status: 403 })
   }
 
@@ -28,14 +28,22 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
       data: {
         response: responseText,
         status: 'ANSWERED'
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        message: true,
+        response: true,
+        status: true
       }
     })
 
     // 2. ENVIA O E-MAIL DE NOTIFICAÇÃO
     try {
       await resend.emails.send({
-        from: 'Baltazarte <onboarding@resend.dev>', // Use o e-mail de teste do Resend
-        to: [answeredMessage.email], // E-mail do usuário que enviou a mensagem
+        from: 'Baltazarte <onboarding@resend.dev>', // trocar em produção
+        to: [answeredMessage.email],
         subject: 'Sua mensagem foi respondida!',
         react: MessageReplyEmail({
           userName: answeredMessage.name,

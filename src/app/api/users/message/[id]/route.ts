@@ -3,8 +3,6 @@ import { prisma } from '@/utils/prisma'
 import { NextRequest, NextResponse } from 'next/server'
 
 // --- GET: Buscar mensagem por ID ---
-// Admin → qualquer
-// User → só se for dono
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   const user = await getUserFromRequest(request)
   if (!user) return NextResponse.json({ message: 'Autenticação necessária.' }, { status: 401 })
@@ -25,11 +23,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // --- PATCH: Editar mensagem ---
-// Admin → qualquer
-// User → apenas se for dono
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = await params
-
+  const { id } = params
   const user = await getUserFromRequest(request)
   if (!user) return NextResponse.json({ message: 'Autenticação necessária.' }, { status: 401 })
 
@@ -46,7 +41,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
     const updated = await prisma.messages.update({
       where: { id },
-      data: { status: 'READ' }
+      data: { status: data.status }
     })
 
     return NextResponse.json(updated)
@@ -57,11 +52,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 }
 
 // --- DELETE: Deletar mensagem ---
-// Admin → qualquer
-// User → apenas se for dono
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
   const { id } = params
-
   const user = await getUserFromRequest(request)
   if (!user) return NextResponse.json({ message: 'Autenticação necessária.' }, { status: 401 })
 
@@ -74,7 +66,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     }
 
     await prisma.messages.delete({ where: { id } })
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ message: 'Mensagem deletada com sucesso' })
   } catch (error) {
     console.error('Erro ao deletar mensagem:', error)
     return NextResponse.json({ message: 'Erro interno' }, { status: 500 })

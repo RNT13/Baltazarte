@@ -8,25 +8,23 @@ interface PrismaClientError {
 }
 
 function isValidOrderStatus(status: unknown): status is PrismaOrderStatus {
-  if (typeof status !== 'string') {
-    return false
-  }
-  return (Object.values(PrismaOrderStatus) as string[]).includes(status)
+  return typeof status === 'string' && (Object.values(PrismaOrderStatus) as string[]).includes(status)
 }
 
 function isPrismaError(error: unknown): error is PrismaClientError {
   return typeof error === 'object' && error !== null && 'code' in error && typeof (error as { code: unknown }).code === 'string'
 }
 
-// GET /api/orders/{id} - BUSCAR UM PEDIDO ESPECÍFICO
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+// GET /api/orders/{id}
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const user = await getUserFromRequest(req)
     if (!user) {
       return NextResponse.json({ message: 'Não autorizado' }, { status: 401 })
     }
 
-    const { id } = params
+    const { id } = await context.params
+
     const order = await prisma.order.findUnique({
       where: { id },
       include: {
@@ -46,20 +44,20 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
     return NextResponse.json(order)
   } catch (error) {
-    console.error(`Erro ao buscar pedido ${params.id}:`, error)
+    console.error(`Erro ao buscar pedido:`, error)
     return NextResponse.json({ message: 'Erro interno ao buscar o pedido' }, { status: 500 })
   }
 }
 
-// PATCH /api/orders/{id} - ATUALIZAR STATUS DE UM PEDIDO
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+// PATCH /api/orders/{id}
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const user = await getUserFromRequest(req)
     if (!user || user.role !== 'ADMIN') {
       return NextResponse.json({ message: 'Não autorizado' }, { status: 403 })
     }
 
-    const { id } = await params
+    const { id } = await context.params
     const body = await req.json()
     const newStatusString = body.status
 
@@ -77,20 +75,21 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     if (isPrismaError(error) && error.code === 'P2025') {
       return NextResponse.json({ message: 'Pedido não encontrado' }, { status: 404 })
     }
-    console.error(`Erro ao atualizar pedido ${params.id}:`, error)
+    console.error(`Erro ao atualizar pedido:`, error)
     return NextResponse.json({ message: 'Erro interno ao atualizar o pedido' }, { status: 500 })
   }
 }
 
-// DELETE /api/orders/{id} - DELETAR UM PEDIDO
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+// DELETE /api/orders/{id}
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const user = await getUserFromRequest(req)
     if (!user || user.role !== 'ADMIN') {
       return NextResponse.json({ message: 'Não autorizado' }, { status: 403 })
     }
 
-    const { id } = params
+    const { id } = await context.params
+
     await prisma.order.delete({ where: { id } })
 
     return NextResponse.json({ message: 'Pedido deletado com sucesso' }, { status: 200 })
@@ -98,7 +97,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     if (isPrismaError(error) && error.code === 'P2025') {
       return NextResponse.json({ message: 'Pedido não encontrado' }, { status: 404 })
     }
-    console.error(`Erro ao deletar pedido ${params.id}:`, error)
+    console.error(`Erro ao deletar pedido:`, error)
     return NextResponse.json({ message: 'Erro interno ao deletar o pedido' }, { status: 500 })
   }
 }

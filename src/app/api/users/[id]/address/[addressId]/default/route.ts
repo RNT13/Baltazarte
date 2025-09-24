@@ -1,9 +1,9 @@
 import { prisma } from '@/utils/prisma'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // PATCH definir endereço padrão
-export async function PATCH(req: Request, { params }: { params: { id: string; addressId: string } }) {
-  const { id, addressId } = await params
+export async function PATCH(req: NextRequest, params: { params: Promise<{ id: string; addressId: string }> }) {
+  const { id, addressId } = await params.params
 
   try {
     const [, updated] = await prisma.$transaction([
