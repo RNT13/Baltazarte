@@ -47,7 +47,6 @@ const TAG_CONFIG: Record<TagType, TagConfigItem> = {
 };
 
 const orderStatusToTagType: Record<OrderStatus, TagType> = {
-  PENDING: 'order_pending',
   PAID: 'order_paid',
   PROCESSING: 'order_processing',
   SHIPPED: 'order_shipped',
