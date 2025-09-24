@@ -1,15 +1,13 @@
 import { prisma } from '@/utils/prisma'
 import { NextResponse } from 'next/server'
 
-type Params = {
-  params: { id: string }
-}
-
 // GET /api/categories/[id] → retorna uma categoria específica
-export async function GET(req: Request, { params }: Params) {
+export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await context.params
+
     const category = await prisma.category.findUnique({
-      where: { id: params.id }
+      where: { id }
     })
 
     if (!category) {
@@ -24,8 +22,9 @@ export async function GET(req: Request, { params }: Params) {
 }
 
 // PUT /api/categories/[id] → atualiza categoria
-export async function PUT(req: Request, { params }: Params) {
+export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await context.params
     const body = await req.json()
 
     if (!body.name || body.name.trim() === '') {
@@ -33,7 +32,7 @@ export async function PUT(req: Request, { params }: Params) {
     }
 
     const category = await prisma.category.update({
-      where: { id: params.id },
+      where: { id },
       data: { name: body.name }
     })
 
@@ -45,10 +44,12 @@ export async function PUT(req: Request, { params }: Params) {
 }
 
 // DELETE /api/categories/[id] → remove categoria
-export async function DELETE(req: Request, { params }: Params) {
+export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await context.params
+
     await prisma.category.delete({
-      where: await { id: params.id }
+      where: { id }
     })
 
     return NextResponse.json({ message: 'Categoria removida com sucesso' })
