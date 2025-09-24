@@ -11,7 +11,7 @@ Uma plataforma de e-commerce moderna e responsiva para a venda de canecas person
 - 📧 Sistema de envio de e-mails para notificações
 - 🔐 Middleware de autenticação com proteção de rotas
 
-## 🌐 Acesse a página ao vivo: [Baltazarte]([LINK PARA O SEU SITE AO VIVO])
+## 🌐 Acesse a página ao vivo: [Baltazarte]([https://baltazarte.vercel.app/products])
 
 ## 📦 Tech Stack
 
