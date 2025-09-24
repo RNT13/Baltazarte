@@ -1,0 +1,216 @@
+// Configuração do gerador do Prisma Client
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  avatar    String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart       Cart?
+  orders     Order[]
+  products   Product[]
+  messages   Messages[]
+  address    Address[]
+
+  @@map("users")
+}
+
+model Address {
+  id        String   @id @default(uuid())
+  label     String
+  street    String
+  number    String
+  complement String?
+  city      String
+  state     String
+  zipCode   String
+  tel       String
+  isDefault  Boolean  @default(false)
+
+  ordersAsShipping Order[] @relation("ShippingAddress")
+
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("addresses")
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String
+  slug      String    @unique
+  products  Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  originalPrice Decimal   @map("original_price")
+  salePrice     Decimal   @map("sale_price")
+  discount    Int       @default(0)
+  thumbnail   String
+  gallery     String[]
+  stock       Int       @default(0)
+  highlight   Boolean   @default(false)
+  sold        Int       @default(0)
+  active      Boolean
+
+  weight        Float     @default(0.3)  // Peso em kg
+  height        Int       @default(11)   // Altura em cm
+  width         Int       @default(16)   // Largura em cm
+  length        Int       @default(16)   // Comprimento em cm
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  cartItems   CartItem[]
+
+  // 🔹 relação com categoria
+  category    Category  @relation(fields: [categoryId], references: [id])
+  categoryId  String
+
+  orderProducts OrderProduct[]
+  creator       User?     @relation(fields: [creatorId], references: [id])
+  creatorId     String?
+}
+
+model Cart {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
+  items     CartItem[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  cartId    Int
+  @@unique([productId, cartId])
+}
+
+enum MessagesStatus {
+  NEW
+  READ
+  ANSWERED
+}
+
+model Messages {
+  id        String    @id @default(uuid())
+  name      String
+  email     String
+  tel       String
+  type      String
+  message   String
+  status    MessagesStatus @default(NEW)
+  response  String?
+  user      User?     @relation(fields: [userId], references: [id])
+  userId    String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+enum PaymentMethod {
+  BOLETO
+  CREDIT_CARD
+  DEBIT_CARD
+  PIX
+  PENDING
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELED
+  FAILED
+  REFUNDED
+}
+
+model Order {
+  id            String          @id @default(uuid())
+  user          User            @relation(fields: [userId], references: [id])
+  userId        String
+  products      OrderProduct[]
+  totalAmount   Float
+  paymentMethod PaymentMethod
+  status        OrderStatus     @default(PENDING)
+  shippingCost      Float
+  stripePaymentId String?
+  shippingAddress   Address   @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
+  shippingAddressId String
+  statusHistory OrderStatusHistory[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model OrderStatusHistory {
+  id        String      @id @default(uuid())
+  order     Order       @relation(fields: [orderId], references: [id])
+  orderId   String
+  status    OrderStatus
+  changedAt DateTime    @default(now())
+}
+
+model OrderProduct {
+  id        String   @id @default(uuid())
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int      @default(1)
+  price     Decimal
+}
+
+
+// 📝 COMO USAR ESTE ARQUIVO:
+//
+// 1. Configure sua DATABASE_URL no arquivo .env
+//    Exemplo: DATABASE_URL="postgresql://username:password@localhost:3306/database_name"
+//
+// 2. Para criar o banco de dados e tabelas:
+//    npx prisma db push
+//
+// 3. Para gerar o Prisma Client:
+//    npx prisma generate
+//
+// 4. Para visualizar o banco no Prisma Studio:
+//    npx prisma studio
+//
+// 5. Para usar um banco existente:
+//    npx prisma db pull (puxa a estrutura do banco existente)
+//    npx prisma generate (gera o client baseado na estrutura)
+//
+// 6. Para criar e aplicar migrations:
+//    npx prisma migrate dev --name init
+//
+// 📚 DOCUMENTAÇÃO: https://www.prisma.io/docs
