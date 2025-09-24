@@ -23,7 +23,7 @@ export default function Register() {
       email: yup.string().email('E-mail inválido').required('Campo obrigatório'),
       password: yup.string().min(6, 'Minimo de 6 caracteres').required('Campo obrigatório'),
     }),
-    onSubmit: async (values: RegisterPayLoad) => {
+    onSubmit: async (values: RegisterPayload) => {
       try {
         const response = await registerUser(values).unwrap();
 
