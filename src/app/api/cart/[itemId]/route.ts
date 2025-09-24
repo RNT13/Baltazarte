@@ -1,13 +1,13 @@
 import { prisma } from '@/utils/prisma'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
-export async function PUT(req: Request, context: { params: Promise<{ itemId: string }> }) {
+export async function PUT(req: Request, context: { params: { itemId: string } }) {
   try {
-    const { itemId } = await context.params
+    const { itemId } = context.params
     const body = (await req.json()) as { quantity: number }
 
     const updatedItem = await prisma.cartItem.update({
-      where: { id: parseInt(itemId) },
+      where: { id: parseInt(itemId, 10) },
       data: { quantity: body.quantity },
       include: { product: true }
     })
@@ -19,26 +19,25 @@ export async function PUT(req: Request, context: { params: Promise<{ itemId: str
   }
 }
 
-export async function PATCH(req: Request, context: { params: Promise<{ itemId: string }> }) {
+export async function PATCH(req: Request, context: { params: { itemId: string } }) {
   return PUT(req, context)
 }
 
-export async function DELETE(req: NextRequest, context: { params: { itemId: string } }) {
+export async function DELETE(req: Request, context: { params: { itemId: string } }) {
   try {
-    const { itemId } = await context.params
+    const { itemId } = context.params
+    const idAsInt = parseInt(itemId, 10)
 
-    const idAsInt = parseInt(itemId)
     if (isNaN(idAsInt)) {
       return NextResponse.json({ message: 'ID do item inválido' }, { status: 400 })
     }
+
     const deleteResult = await prisma.cartItem.deleteMany({
-      where: {
-        id: idAsInt
-      }
+      where: { id: idAsInt }
     })
 
     if (deleteResult.count === 0) {
-      console.log(`Tentativa de deletar o CartItem com ID ${idAsInt}, mas ele não foi encontrado (provavelmente já foi deletado).`)
+      console.log(`Tentativa de deletar o CartItem com ID ${idAsInt}, mas não encontrado (provavelmente já foi deletado).`)
     }
 
     return NextResponse.json({ success: true })
