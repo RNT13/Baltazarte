@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux'
 
 const orderFilterMap: Record<string, (order: Order) => boolean> = {
   Todos: () => true,
-  Pendente: order => order.status === 'PENDING',
   Pago: order => order.status === 'PAID',
   Processando: order => order.status === 'PROCESSING',
   Enviado: order => order.status === 'SHIPPED',
