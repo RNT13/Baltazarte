@@ -3,12 +3,13 @@ import { prisma } from '@/utils/prisma'
 import { NextRequest, NextResponse } from 'next/server'
 
 // --- GET: Buscar mensagem por ID ---
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params
   const user = await getUserFromRequest(request)
   if (!user) return NextResponse.json({ message: 'Autenticação necessária.' }, { status: 401 })
 
   try {
-    const message = await prisma.messages.findUnique({ where: { id: params.id } })
+    const message = await prisma.messages.findUnique({ where: { id } })
     if (!message) return NextResponse.json({ message: 'Mensagem não encontrada' }, { status: 404 })
 
     if (user.role !== 'ADMIN' && message.userId !== user.id) {
@@ -23,8 +24,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // --- PATCH: Editar mensagem ---
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params
+export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params
   const user = await getUserFromRequest(request)
   if (!user) return NextResponse.json({ message: 'Autenticação necessária.' }, { status: 401 })
 
@@ -52,8 +53,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 }
 
 // --- DELETE: Deletar mensagem ---
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params
   const user = await getUserFromRequest(request)
   if (!user) return NextResponse.json({ message: 'Autenticação necessária.' }, { status: 401 })
 
