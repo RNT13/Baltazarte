@@ -33,7 +33,7 @@ export default function Login() {
       email: yup.string().email('E-mail inválido').required('Campo obrigatório'),
       password: yup.string().required('Campo obrigatório'),
     }),
-    onSubmit: async (values: LoginPayLoad) => {
+    onSubmit: async (values: LoginPayload) => {
       try {
         const response = await loginUser(values).unwrap();
 
