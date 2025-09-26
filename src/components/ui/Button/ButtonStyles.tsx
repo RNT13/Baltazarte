@@ -136,7 +136,7 @@ const buttonVariants = {
     background-color: ${({ theme }) => theme.colors.baseRed.base};
     color: ${({ theme }) => theme.colors.textColor};
     border: 2px solid ${({ theme }) => theme.colors.baseRed.base};
-    box-shadow:  4px 4px 4px rgba(216, 8, 8, 0.651);
+    box-shadow:  4px 4px 4px ${({ theme }) => theme.colors.baseRed.base};
 
     &:hover:not(:disabled) {
       background-color: ${({ theme }) => theme.colors.baseRed.dark};

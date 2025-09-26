@@ -3,9 +3,11 @@ import { styled } from 'styled-components'
 
 type Props = {
   $image?: 'small' | 'medium' | 'large'
+  $direction?: 'row' | 'column'
 }
 
 export const CartItemContainer = styled.div`
+  position: relative;
   width: 100%;
   height: fit-content;
   display: flex;
@@ -16,23 +18,21 @@ export const CartItemContainer = styled.div`
   user-select: none;
 `
 
-export const CartItemContent = styled.div`
-  position: relative;
-  display: flex;
+export const CartItemContent = styled.div<Props>`
   width: 100%;
   height: 100%;
+  display: flex;
 
   ${media.mobile} {
-    flex-direction: column;
+    flex-direction: ${props => props.$direction};
   }
 `
 
 export const CartItemImg = styled.div<Props>`
-  height: 100%;
   width: ${props => {
     switch (props.$image) {
       case 'small':
-        return '150px'
+        return '200px'
       case 'medium':
         return '300px'
       case 'large':
@@ -41,6 +41,20 @@ export const CartItemImg = styled.div<Props>`
         return '100px'
     }
   }};
+  height: ${props => {
+    switch (props.$image) {
+      case 'small':
+        return '100px'
+      case 'medium':
+        return '200px'
+      case 'large':
+        return '400px'
+      default:
+        return '100px'
+    }
+  }};
+  max-width: auto;
+  max-height: 130px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,14 +78,13 @@ export const CartItemInfo = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 12px;
+  padding-right: 32px;
 `
 
 export const CartItemActions = styled.div`
-  width: 30%;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  gap: 8px;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
 
   > div {
     width: 90px;

@@ -38,7 +38,7 @@ export default function CartWindow({ onClose, items }: CartWindowProps) {
             <CartWindowBody>
               {items.map(item => (
                 <CartItem
-                  $image="medium"
+                  $image="small"
                   key={item.product.id}
                   item={item} />
               ))}

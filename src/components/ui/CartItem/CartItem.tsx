@@ -1,7 +1,7 @@
 'use client'
 
 import { useDeleteCartItemMutation, useUpdateCartItemMutation } from "@/redux/slices/apiSlice";
-import { CloseButton, TitleH2, TitleH3 } from "@/styles/globalStyles";
+import { CloseButton, MinorTextH4, TitleH2, TitleH3 } from "@/styles/globalStyles";
 import { currencyFormatter } from "@/utils/shortIdUtils";
 import Image from "next/image";
 import toast from "react-hot-toast";
@@ -14,9 +14,10 @@ type CartItemProps = {
   item: CartItem
   discription?: boolean
   $image?: "small" | "medium" | "large"
+  $direction?: "row" | "column"
 }
 
-export default function CartItem({ item, discription, $image }: CartItemProps) {
+export default function CartItem({ item, discription, $image, $direction }: CartItemProps) {
   const [updateCartItem, { isLoading }] = useUpdateCartItemMutation()
   const [deleteCartItem, { isLoading: isLoadingDelete }] = useDeleteCartItemMutation()
 
@@ -45,14 +46,14 @@ export default function CartItem({ item, discription, $image }: CartItemProps) {
 
   return (
     <CartItemContainer>
-      <CartItemContent>
+      <CartItemContent $direction={$direction}>
         <CartItemImg $image={$image}>
           <Image src={item.product.thumbnail} alt={item.product.name} width={100} height={100} />
         </CartItemImg>
 
         <CartItemInfo>
-          <TitleH2>{item.product.name.slice(6, 20)}</TitleH2>
-          {discription && <TitleH3>{item.product.description.slice(0, 50)}</TitleH3>}
+          <TitleH2>{item.product.name.length > 15 ? `${item.product.name.slice(0, 15)}...` : item.product.name}</TitleH2>
+          {discription && <MinorTextH4>{item.product.description.length > 70 ? `${item.product.description.slice(0, 70)}...` : item.product.description}</MinorTextH4>}
           <TitleH3>{currencyFormatter.format(item.product.salePrice)}</TitleH3>
         </CartItemInfo>
 
@@ -64,10 +65,10 @@ export default function CartItem({ item, discription, $image }: CartItemProps) {
           </div>
         </CartItemActions>
 
-        <CloseButton >
-          <Button variant="ghost" size="xs" leftIcon={<IoMdCloseCircleOutline />} onClick={handleRemove} loading={isLoadingDelete} />
-        </CloseButton>
       </CartItemContent>
+      <CloseButton >
+        <Button variant="ghost" size="xs" leftIcon={<IoMdCloseCircleOutline />} onClick={handleRemove} loading={isLoadingDelete} />
+      </CloseButton>
     </CartItemContainer>
   )
 }

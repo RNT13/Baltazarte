@@ -56,8 +56,8 @@ export default function Card({ item }: CardProps) {
         </CardHeader>
 
         <CardBody>
-          <CardTitle>{item.name.slice(0, 20)}</CardTitle>
-          <CardDescription>{item.description.slice(0, 60)}...</CardDescription>
+          <CardTitle>{item.name.length > 20 ? `${item.name.slice(0, 20)}...` : item.name}</CardTitle>
+          <CardDescription>{item.description.length > 120 ? `${item.description.slice(0, 120)}...` : item.description}...</CardDescription>
           {!item.active ? (
             <CardPrice>Indisponível</CardPrice>
           ) : item.discount > 0 ? (

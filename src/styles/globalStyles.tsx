@@ -71,9 +71,6 @@ export const OverlayDarck = styled.div`
 `
 
 export const CloseButton = styled.div`
-  border-radius: 50%;
-  margin: 0;
-  padding: 0;
   position: absolute;
   top: 0px;
   right: 0px;

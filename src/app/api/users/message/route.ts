@@ -2,6 +2,7 @@ import { getUserFromRequest } from '@/utils/auth'
 import { prisma } from '@/utils/prisma'
 import { NextRequest, NextResponse } from 'next/server'
 
+// --- POST: Criar mensagem ---
 export async function POST(request: NextRequest) {
   const user = await getUserFromRequest(request)
   const data = await request.json()

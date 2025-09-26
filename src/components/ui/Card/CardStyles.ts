@@ -32,6 +32,7 @@ export const CardHeader = styled.div<{ $active: boolean }>`
   position: relative;
   width: 100%;
   height: 100%;
+  max-height: 180px;
   padding: 0px 8px;
 
   img {
@@ -68,13 +69,18 @@ export const CardBody = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 8px;
   padding: 0 8px;
 `
 
-export const CardTitle = styled.div``
+export const CardTitle = styled.div`
+  font-size: 24px;
+`
 
-export const CardDescription = styled.div``
+export const CardDescription = styled.div`
+  font-size: 16px;
+`
 
 export const CardPrice = styled.div`
   display: flex;

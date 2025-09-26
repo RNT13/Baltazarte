@@ -185,15 +185,16 @@ export default function Checkout() {
       {step === 'items' && (
         <CheckoutContent>
           <CheckoutColumn>
-            <Box width="lg" height="xm" $padding="md" $bgColor="primary">
+            <Box width="lg" height="xm" $padding="sm" $bgColor="primary">
               <TitleH2>Itens do pedido</TitleH2>
             </Box>
-            <Box width="lg" height="lg" $padding="md" direction="column" $bgColor="primary">
+            <Box width="lg" height="lg" $padding="sm" direction="column" $bgColor="primary">
               {isCartLoading ? <p>Carregando itens...</p> : (
                 <ItemsList>
                   {cart.items.map(item => (
                     <CartItem
-                      $image="medium"
+                      $image="large"
+                      $direction="column"
                       discription
                       key={item.product.id}
                       item={item}
@@ -205,7 +206,7 @@ export default function Checkout() {
           </CheckoutColumn>
 
           <CheckoutSummary>
-            <Box width="lg" $padding="md" direction="column" $bgColor="primary">
+            <Box width="lg" $padding="sm" direction="column" $bgColor="primary">
               <CheckoutRow>
                 <TitleH3>Sub total</TitleH3>
                 {currencyFormatter.format(subtotalNumber)}
@@ -226,7 +227,7 @@ export default function Checkout() {
                 </>
               )}
             </Box>
-            <Box width="lg" height="xm" $padding="md" $bgColor="primary">
+            <Box width="lg" height="xm" $padding="sm" $bgColor="primary">
               <Button
                 onClick={handleNextStep}
                 variant="pink"
@@ -257,18 +258,18 @@ export default function Checkout() {
               </Button>
             </div>
 
-            <Box width="lg" height="xm" $padding="md" direction="column" $bgColor="primary">
+            <Box width="lg" height="xm" $padding="sm" direction="column" $bgColor="primary">
               <TitleH2>Informações de entrega</TitleH2>
             </Box>
 
-            <Box width="lg" height="lg" $padding="md" direction="column" $bgColor="primary">
+            <Box width="lg" height="lg" $padding="sm" direction="column" $bgColor="primary">
               <TitleH3>Endereço cadastrado</TitleH3>
               <AddressManager />
             </Box>
           </CheckoutColumn>
 
           <CheckoutSummary>
-            <Box width="lg" height="lg" $padding="md" direction="column" $bgColor="primary">
+            <Box width="lg" height="lg" $padding="sm" direction="column" $bgColor="primary">
               <ItemsList>
                 <TitleH2>Resumo do pedido</TitleH2>
                 {cart.items.map(item => (
@@ -280,7 +281,7 @@ export default function Checkout() {
                       height={100}
                     />
                     <div>
-                      <TitleH3>{item.product.name}</TitleH3>
+                      <TitleH3>{item.product.name.length > 20 ? `${item.product.name.slice(0, 20)}...` : item.product.name}</TitleH3>
                       <MinorTextH4>{currencyFormatter.format(item.product.salePrice)}</MinorTextH4>
                       <TitleH3>Qtd: {item.quantity}</TitleH3>
                     </div>
@@ -289,7 +290,7 @@ export default function Checkout() {
               </ItemsList>
             </Box>
 
-            <Box width="lg" height="lg" $padding="md" direction="column" $bgColor="primary">
+            <Box width="lg" height="lg" $padding="sm" direction="column" $bgColor="primary">
               <CheckoutRow>
                 <TitleH3>Sub total</TitleH3>
                 {currencyFormatter.format(subtotalNumber)}
@@ -303,7 +304,7 @@ export default function Checkout() {
                 {currencyFormatter.format(totalNumber)}
               </CheckoutRow>
             </Box>
-            <Box width="lg" height="xm" $padding="md" $bgColor="primary">
+            <Box width="lg" height="xm" $padding="sm" $bgColor="primary">
               <Button onClick={handleNextStep} variant="pink" size="sm" title="Ir para pagamento" loading={isPreparingPayment} >
                 Ir para pagamento
               </Button>
@@ -321,16 +322,16 @@ export default function Checkout() {
                 voltar para entrega
               </Button>
             </div>
-            <Box width="lg" height="xm" $padding="md" direction="column" $bgColor="primary">
+            <Box width="lg" height="xm" $padding="sm" direction="column" $bgColor="primary">
               <TitleH2>Informações de pagamento</TitleH2>
             </Box>
-            <Box width="lg" height="lg" $padding="md" direction="column" $bgColor="primary">
+            <Box width="lg" height="lg" $padding="sm" direction="column" $bgColor="primary">
               <PaymentForm clientSecret={pendingOrder.clientSecret} />
             </Box>
           </CheckoutColumn>
 
           <CheckoutSummary>
-            <Box width="lg" $padding="md" direction="column" $bgColor="primary">
+            <Box width="lg" $padding="sm" direction="column" $align="center" $bgColor="primary">
               <TitleH2>Resumo do pedido</TitleH2>
               {defaultAddress ? (
                 <AddressCard $isSelected={true} >
@@ -346,7 +347,7 @@ export default function Checkout() {
               )}
             </Box>
 
-            <Box width="lg" $padding="md" direction="column" $bgColor="primary">
+            <Box width="lg" $padding="sm" direction="column" $bgColor="primary">
               <ItemsList>
                 {cart.items.map(item => (
                   <ItemDiv key={item.product.id}>
@@ -360,7 +361,7 @@ export default function Checkout() {
               </ItemsList>
             </Box>
 
-            <Box width="lg" $padding="md" direction="column" $bgColor="primary">
+            <Box width="lg" $padding="sm" direction="column" $bgColor="primary">
               <CheckoutRow>
                 <TitleH3>Sub total</TitleH3>
                 {currencyFormatter.format(subtotalNumber)}

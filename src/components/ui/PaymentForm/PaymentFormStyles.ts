@@ -59,7 +59,7 @@ export const CardFormFields = styled.div`
 export const InfoBox = styled.div`
   display: flex;
   gap: 12px;
-  padding: 24px;
+  padding: 12px;
   border: 1px solid ${({ theme }) => theme.colors.gray};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.primaryColor};

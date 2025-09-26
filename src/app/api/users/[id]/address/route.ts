@@ -1,7 +1,7 @@
 import { prisma } from '@/utils/prisma'
 import { NextRequest, NextResponse } from 'next/server'
 
-// GET todos os endereços do usuário (sem alterações)
+// GET todos os endereços do usuário
 export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
   if (!id) {

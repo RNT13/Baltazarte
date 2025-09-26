@@ -13,7 +13,9 @@ export const ManagerContainer = styled.div`
 `
 
 export const AddressListContainer = styled.div`
+  width: 100%;
   display: flex;
+  justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
 `

@@ -121,11 +121,11 @@ export default function ProductID({ params }: ProductIDProps) {
           ) : product.discount > 0 ? (
             <ProductIDPrice>
               <p>
-                De <span>{currencyFormatter.format(product.salePrice)}</span>
+                De <span>{currencyFormatter.format(product.originalPrice)}</span>
               </p>
               <h2>
                 Por apenas <span>
-                  {currencyFormatter.format(product.salePrice - ((product.salePrice * product.discount) / 100))}
+                  {currencyFormatter.format(product.salePrice)}
                 </span>
               </h2>
             </ProductIDPrice>

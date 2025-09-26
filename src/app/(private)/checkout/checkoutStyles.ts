@@ -34,7 +34,6 @@ export const CheckoutColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 12px;
 
   ${media.tablet} {
     width: 100%;
@@ -59,7 +58,7 @@ export const ItemDiv = styled.div`
   height: auto;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   background-color: ${theme.colors.pinkColor};
   border-radius: 8px;
   padding: 4px;
@@ -75,8 +74,9 @@ export const ItemDiv = styled.div`
 
   img {
     border-radius: 8px;
-    width: 60px;
-    height: 50px;
+    object-fit: cover;
+    max-width: 60px;
+    max-height: 50px;
   }
 
   div {
@@ -93,7 +93,6 @@ export const CheckoutSummary = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 12px;
 
   ${media.tablet} {
     width: 100%;

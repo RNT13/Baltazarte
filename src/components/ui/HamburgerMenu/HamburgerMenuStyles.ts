@@ -19,7 +19,7 @@ export const HamburgerMenuContainer = styled.div`
   background-color: ${props => props.theme.colors.pinkColor};
   color: ${props => props.theme.colors.fifthColor};
   border: 1px solid ${props => props.theme.colors.fifthColor};
-  z-index: 10;
+  z-index: 101;
 
   ${media.pc} {
     display: flex;
@@ -63,7 +63,7 @@ export const HamburgerMenuWindowContainer = styled.div<HamburgerMenuProps>`
   align-items: center;
   background-color: ${props => props.theme.colors.secondaryColor};
   border: 1px solid ${props => props.theme.colors.fifthColor};
-  z-index: 10;
+  z-index: 101;
   ${slideFromLeft}
 
   ${media.pc} {

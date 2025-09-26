@@ -18,7 +18,8 @@ export const CartWindowContent = styled.div`
   z-index: 100;
 
   ${media.mobile} {
-    width: 295px;
+    padding: 4px;
+    width: 100%;
   }
 `
 
