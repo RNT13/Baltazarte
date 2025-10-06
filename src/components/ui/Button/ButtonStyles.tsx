@@ -123,6 +123,7 @@ const buttonVariants = {
     text-decoration: none;
     flex-wrap: wrap;
     flex: 1;
+    border-radius: 0;
 
     &:hover:not(:disabled) {
       text-decoration: underline;
@@ -275,6 +276,7 @@ const buttonSizes = {
 }
 
 export const StyledButton = styled.button<StyledButtonProps>`
+  height: fit-content;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -366,18 +368,12 @@ export const ButtonContent = styled.span<{ $loading: boolean }>`
   gap: 8px;
   opacity: ${({ $loading }) => ($loading ? 0 : 1)};
   transition: opacity 0.2s ease-in-out;
-  ${StyledButton}[data-variant='link'] & {
-    align-items: flex-start;
-  }
 `
 
 export const IconWrapper = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${StyledButton}[data-variant='link'] & {
-    margin-top: 0.15em;
-  }
 
   svg {
     width: 1em;

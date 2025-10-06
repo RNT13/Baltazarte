@@ -52,6 +52,26 @@ export const FooterColummn = styled.div`
   svg {
     font-size: 24px;
   }
+
+  ${media.tablet}, ${media.mobile} {
+    align-items: center;
+
+    p {
+      text-align: center;
+    }
+
+    li {
+      text-align: center;
+    }
+  }
+`
+
+export const FooterLinksWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap; // Permite que os links quebrem para a próxima linha em telas menores
+  justify-content: center; // Centraliza os links no contêiner
+  gap: 24px; // Espaçamento entre os links
+  padding: 20px 0; // Espaçamento vertical
 `
 
 export const FooterSocialLinks = styled.div`
@@ -60,6 +80,8 @@ export const FooterSocialLinks = styled.div`
   gap: 8px;
   margin-top: 12px;
   display: flex;
+  justify-content: center;
+  align-items: center;
 
   button,
   a {
@@ -135,8 +157,14 @@ export const FooterCopyright = styled.div`
 
   div {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 24px;
+
+    ${media.mobile} {
+      flex-direction: column;
+      gap: 4px;
+    }
   }
 `
